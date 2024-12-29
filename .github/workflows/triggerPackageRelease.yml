@@ -1,0 +1,35 @@
+name: Node.js Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      plugin:
+        description: "Select the npm package to deploy"
+        required: true
+        default: "data-management"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: cd ${{ github.event.inputs.plugin }} && npm ci
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - run: cd ${{ github.event.inputs.plugin }} && npm ci
+      - run: |
+          echo ${{secrets.npm_token}}
+      - run: cd ${{ github.event.inputs.plugin }} && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
