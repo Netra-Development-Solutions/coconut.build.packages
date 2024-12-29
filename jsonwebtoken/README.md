@@ -25,12 +25,13 @@ const jwt = require('@coconut-packages/jsonwebtoken');
 ### Environment Variables
 
 The following environment variables are required for the `@coconut-packages/jsonwebtoken` utility:
+```sh
+# Algorithm for JWT signing and verification
+JWT_ALGORITHM=HS256
 
-- `JWT_SECRET`: A secret key used for signing and verifying tokens.
-- `JWT_EXPIRATION`: The expiration time for the tokens (e.g., `1h`, `2d`).
-- `JWT_ISSUER`: The issuer of the token, typically your application name.
-- `JWT_AUDIENCE`: The audience for the token, usually the intended recipients.
-
+# Algorithm for AES encryption
+ENCRYPTION_ALGORITHM=aes-256-gcm
+```
 Ensure these variables are set in your environment before using the utility.
 
 ### Example Code
@@ -72,3 +73,22 @@ try {
     console.error('Token verification failed:', err);
 }
 ```
+
+### Generating AES Key and IV
+
+To generate a 256-bit AES key and a 12-byte IV for AES-GCM, you can use the following code:
+
+```javascript
+const crypto = require('crypto');
+
+// Generate a 256-bit (32 bytes) key for AES-256-GCM
+const aesKey = crypto.randomBytes(32);
+
+// Generate a 12-byte (96 bits) IV for AES-GCM
+const aesIv = crypto.randomBytes(12);
+
+console.log('AES Key (Hex):', aesKey.toString('hex'));
+console.log('AES IV (Hex):', aesIv.toString('hex'));
+```
+
+This will output the AES key and IV in hexadecimal format, which can be used for encryption and decryption.
