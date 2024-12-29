@@ -13,11 +13,6 @@ const moduleSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-moduleSchema.pre("save", function (next) {
-    this.code = this.code.toUpperCase();
-    next();
-});
-
 moduleSchema.post("save", function (doc, next) {
     if (!this.moduleId) this.moduleId = this._id;
     this.save();

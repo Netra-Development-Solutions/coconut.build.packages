@@ -9,11 +9,6 @@ const applicationSchema = new mongoose.Schema({
   icon: { type: String, required: true },
 }, { timestamps: true });
 
-applicationSchema.pre("save", function (next) {
-  this.code = this.code.toUpperCase();
-  next();
-});
-
 applicationSchema.post("save", function (doc, next) {
   if (!this.appId) this.appId = this._id;
   this.save();
