@@ -13,10 +13,4 @@ const moduleSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-moduleSchema.post("save", function (doc, next) {
-    if (!this.moduleId) this.moduleId = this._id;
-    this.save();
-    next();
-});
-
 module.exports = mongoose.model("Module", moduleSchema);
