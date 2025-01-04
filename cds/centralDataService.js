@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-class CentralDataService {
+export default class CentralDataService {
   constructor(baseURL) {
     this.client = axios.create({
       baseURL: baseURL || '', // Set a default baseURL if required
@@ -39,4 +39,4 @@ class CentralDataService {
 }
 
 // Export as singleton or create instances with different base URLs
-export default new CentralDataService('https://api.example.com');
+export const centralDataServoce = new CentralDataService('https://api.example.com');
