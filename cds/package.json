@@ -1,5 +1,5 @@
 {
-  "name": "cds",
+  "name": "@coconut-packages/cds",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
