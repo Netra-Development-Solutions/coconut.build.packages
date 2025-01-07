@@ -36,6 +36,23 @@ export default class CentralDataService {
       throw error;
     }
   }
+
+  // Only one time use case for logging in user
+  async authenticateToken (config, token) {
+    try {
+      const response = await this.client.request({
+        ...config,
+        headers: {
+          ...config.headers,
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response;
+    }
+    catch (error) {
+      throw error;
+    }
+  }
 }
 
 // Export as singleton or create instances with different base URLs
