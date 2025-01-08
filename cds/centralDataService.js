@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default class CentralDataService {
-  constructor(baseURL) {
+  constructor(baseURL, userContext = {}) {
     this.client = axios.create({
       baseURL: baseURL || '', // Set a default baseURL if required
       timeout: 10000, // Default timeout
@@ -26,11 +26,17 @@ export default class CentralDataService {
         return Promise.reject(error);
       }
     );
+
+    this.userContext = userContext;
   }
 
   async makeRequest(config) {
     try {
-      const response = await this.client.request(config);
+      console.log(this.userContext)
+      const response = await this.client.request({...config, headers: {
+        ...config.headers,
+        Authorization: `Bearer ${this.userContext.token}`
+      }});
       return response;
     } catch (error) {
       throw error;
